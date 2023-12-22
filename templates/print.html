@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Расход материалов</title>
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+</head>
+<body>
+{% if data is not defined %}
+<div class="choice">
+    <h1 class="header">Выберите нужную таблицу</h1>
+    <form>
+        {% for i in range(tables_list| length) %}
+            <button name="table" value={{i+1}}>{{ tables_list[i] }}</button>
+        {% endfor %}
+    </form>
+</div>
+{% if error is defined %}
+<div><p class="info">Вы ввели неправильный номер.</p></div>
+{% endif %}
+{% else %}
+<h1 class="header">Таблица {{ table_name }}</h1>
+<div class="table">
+    <table>
+        <tr>
+            {% for item in headers %}
+            <th>{{ item }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in data %}
+            <tr>
+                {% for col in row %}
+                <td>{{ col }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+<div class="footer">
+  <p class="footer-text">
+    <a href="/">Вернуться в меню</a>
+  </p>
+</div>
+</body>
+</html>

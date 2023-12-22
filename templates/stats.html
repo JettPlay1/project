@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Расход материалов</title>
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+</head>
+<body>
+
+<div class="choice">
+    <h1 class="header">Выберите нужную статистику</h1>
+    <form>
+        <button name="statistic" value="1">Сумма закупки и сумма продажи</button>
+        <button name="statistic" value="2">Поставщики и сумма заукпки</button>
+        <button name="statistic" value="3">Поставка материалов по дням</button>
+        <button name="statistic" value="4">Сумма заказов</button>
+        <button name="statistic" value="5">Стоимость продукции</button>
+    </form>
+</div>
+{% if error is defined %}
+<div><p class="info">Вы ввели неправильный номер.</p></div>
+{% endif %}
+{% if data is defined %}
+<h1 class="header">{{stat_name}}</h1>
+    <table>
+        <tr>
+            {% for item in headers %}
+            <th>{{ item }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in data %}
+            <tr>
+                {% for col in row %}
+                <td>{{ col }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+<div class="footer">
+    <hr>
+  <p class="footer-text">
+    <a href="/">Вернуться в меню</a>
+  </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Расход материалов</title>
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+</head>
+<body>
+{% if data is not defined %}
+<div class="choice">
+    <h1 class="header">Выберите нужную таблицу</h1>
+    <form>
+        {% for i in range(tables_list| length) %}
+            <button name="table" value={{i+1}}>{{ tables_list[i] }}</button>
+        {% endfor %}
+    </form>
+</div>
+{% if error is defined %}
+<p class="info">Вы ввели неправильный номер.</p>
+{% endif %}
+{% else %}
+<h1 class="header">Выберите строки, которую вы хотите изменить</h1>
+<div class="table">
+    <table>
+        <tr>
+            {% for item in headers %}
+            <th>{{ item }}</th>
+            {% endfor %}
+            <th>Выбрано</th>
+        </tr>
+        {% for row in data %}
+            <tr>
+                {% for col in row %}
+                <td>{{ col }} </td>
+                {% endfor %}
+                <td><input type="radio" class="rowCheckbox"><span class="checkmark"></span></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <button id="refer" onclick="editSelected();">Изменить выбранную строку</button>
+    <script>
+      function editSelected() {
+      const selectedRows = [];
+      const checkboxes = document.getElementsByClassName('rowCheckbox');
+      let value = document.getElementsByClassName('value')[0].value;
+      for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+          selectedRows.push(i);
+        }
+      }
+      location.href = "/edit?table=" + value + "&row=" + selectedRows[0];}</script>
+</div>
+{% endif %}
+
+{% if table_id is defined %}
+<input class="value" value={{table_id}} type="hidden">
+{% endif %}
+<div class="footer">
+  <p class="footer-text">
+    <a href="/">Вернуться в меню</a>
+  </p>
+</div>
+</body>
+</html>

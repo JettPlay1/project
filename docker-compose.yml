@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: y0u__n3v333r-__-gu3$$_
+      POSTGRES_DB: raschod_materialov
+    networks:
+      - local
+  databaseProject:
+    image: databaseproject
+    build: .
+    command: gunicorn -w 6 --bind 0.0.0.0:80 --log-level debug app:app
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: y0u__n3v333r-__-gu3$$_
+      POSTGRES_DB: raschod_materialov
+    ports:
+      - "80:80"
+    networks:
+      - local
+
+networks:
+  local: {}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Расход материалов</title>
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+</head>
+<body>
+{% if headers is defined %}
+<h1 class="header">Вы выбрали</h1>
+<div class="table">
+    <table>
+        <tr>
+            {% for item in headers %}
+            <th>{{ item }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for item in data %}
+            <td>{{item}}</td>
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+<h2 class="header">Введите данные</h2>
+<div class="form-container">
+<form class="insert-form" action="/edit" method="post">
+    {% if table_id is defined %}
+        <input name="table" value={{table_id}} type="hidden">
+        <input name="row" value={{row}} type="hidden">
+    {% endif %}
+    {% for header in headers %}
+    <div class="form-group"><label>{{ header }}</label><input name={{header}}></div>
+    {% endfor %}
+    <button>Изменить строку</button>
+</form>
+</div>
+{% endif %}
+{% if success is defined %}
+{% if success %}
+<div>
+<p class="info">Данные успешно изменены.</p>
+</div>
+{% else %}
+<div>
+<p class="info">Ошибка при изменении данных.</p>
+</div>
+{% endif %}
+{% endif %}
+<div class="footer">
+  <p class="footer-text">
+    <a href="/">Вернуться в меню</a>
+  </p>
+</div>
+</body>
+</html>
